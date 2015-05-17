@@ -13,6 +13,9 @@ vagrantfile:
                 vflnp_odedacelaw8i:
                     host: '8354'
                     guest: '22'
+                vflnp_odedaceasw8i:
+                    host: '5432'
+                    guest: '5432'
         post_up_message: ''
         provider:
             virtualbox:
@@ -77,7 +80,6 @@ firewall:
         fr_wc87pn4fkn1y:
             port:
                 - '8000'
-                - '5432'
             priority: '100'
             proto: tcp
             action: accept
