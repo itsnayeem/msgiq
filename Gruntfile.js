@@ -96,10 +96,7 @@ module.exports = function (grunt) {
           '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
           '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
           '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
-        ],
-        options: {
-          livereload: true
-        }
+        ]
       },
       express: {
         files: [
@@ -107,7 +104,6 @@ module.exports = function (grunt) {
         ],
         tasks: ['express:dev', 'wait'],
         options: {
-          livereload: true,
           nospawn: true //Without this option specified express won't be reloaded
         }
       }

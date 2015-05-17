@@ -4,14 +4,14 @@ vagrantfile:
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
         hostname: local.socialapp
-        memory: '2048'
+        memory: '1024'
         cpus: '2'
         chosen_provider: virtualbox
         network:
             private_network: 10.1.2.20
             forwarded_port:
-                vflnp_whpxus27jr9m:
-                    host: '7639'
+                vflnp_odedacelaw8i:
+                    host: '8354'
                     guest: '22'
         post_up_message: ''
         provider:
@@ -32,7 +32,7 @@ vagrantfile:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            vflsf_xx9puqmigtmt:
+            vflsf_pgcv0r7oadzw:
                 source: ./
                 target: /opt/socialapp
                 sync_type: default
@@ -74,13 +74,10 @@ users_groups:
 firewall:
     install: '1'
     rules:
-        fr_rnlaoxo6n1pu:
+        fr_wc87pn4fkn1y:
             port:
                 - '8000'
-            priority: '100'
-            proto: tcp
-            action: accept
-        fr_jxs8w21e8b1r:
+                - '5432'
             priority: '100'
             proto: tcp
             action: accept
@@ -95,9 +92,11 @@ nginx:
         proxy_buffers: '4 256k'
     upstreams: {  }
     vhosts:
-        nxv_zk0wozkjwmw6:
+        nxv_1bbugp88id9g:
             server_name: local.socialapp
-            www_root: /opt/socialapp
+            server_aliases:
+                - local.socialapp
+            www_root: /var/www/
             listen_port: '80'
             index_files:
                 - index.html
@@ -113,7 +112,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_s60bi9dp30po:
+                nxvl_s2ol887eq184:
                     location: /
                     autoindex: off
                     try_files:
@@ -123,7 +122,7 @@ nginx:
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
-                nxvl_w8mzw2zcpxt1:
+                nxvl_rlw5k7bapado:
                     location: '~ \.php$'
                     autoindex: off
                     try_files:
@@ -138,7 +137,7 @@ nginx:
                         - 'APP_ENV dev'
     proxies: {  }
 apache:
-    install: '0'
+    install: '1'
     settings:
         user: www-data
         group: www-data
@@ -150,11 +149,9 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_gcz104c13yl7:
-            servername: awesome.dev
-            serveraliases:
-                - www.awesome.dev
-            docroot: /var/www/awesome
+        av_ke3oadpfe9wy:
+            servername: local.socialapp
+            docroot: /var/www/
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -167,7 +164,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_pe8p9i5hicof:
+                avd_jsv4y0npnnf7:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -179,14 +176,14 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_b4p3f3v3gcgf:
+                        avdfm_vyft86yxaluc:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
                             provider: filesmatch
                     provider: directory
 php:
-    install: '0'
+    install: '1'
     settings:
         version: '56'
     modules:
@@ -205,7 +202,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_j3lmh6kuto9l:
+        phpfp_5c0edt62a9wg:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -248,7 +245,7 @@ drush:
 ruby:
     install: '1'
     versions:
-        rv_gotcthlx5l7l:
+        rv_o6r7nv60ncd4:
             default: '1'
             version: 1.9.3
             gems:
@@ -285,15 +282,15 @@ mysql:
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_1m8edy4nylm3:
+        mysqlnu_8lhmn9h8qdq6:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_xybuh0bf4rj8:
+        mysqlnd_y8juzj7gl5cj:
             name: dbname
             sql: ''
     grants:
-        mysqlng_tn3q08xbjdt0:
+        mysqlng_08f4mniq5kor:
             user: dbuser
             table: '*.*'
             privileges:
@@ -305,11 +302,18 @@ postgresql:
             encoding: UTF8
             version: '9.3'
         server:
-            postgres_password: '123'
-    databases: {  }
-    users: {  }
+            postgres_password: c0rinth+
+    databases:
+        postsqlnd_mv4qryx6jt7f:
+            dbname: socialapp
+            owner: socialapp
+    users:
+        postsqlnu_j0o0qw5rjj19:
+            username: socialapp
+            password: socisoci
+            superuser: '1'
     grants: {  }
-    adminer: 0
+    adminer: '1'
 mongodb:
     install: '0'
     settings:
@@ -318,7 +322,7 @@ mongodb:
         port: '27017'
     databases: {  }
 redis:
-    install: '1'
+    install: '0'
     settings:
         conf_port: '6379'
 sqlite:
