@@ -151,7 +151,7 @@ apache:
     vhosts:
         av_ke3oadpfe9wy:
             servername: local.socialapp
-            docroot: /var/www/
+            docroot: /var/www/html
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -165,7 +165,7 @@ apache:
             ssl_cipher: ''
             directories:
                 avd_jsv4y0npnnf7:
-                    path: /var/www/awesome
+                    path: /var/www/html
                     options:
                         - Indexes
                         - FollowSymlinks
