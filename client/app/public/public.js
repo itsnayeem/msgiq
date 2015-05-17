@@ -3,9 +3,9 @@
 angular.module('socialappApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('main', {
+      .state('public', {
         url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/public/public.html',
+        controller: 'PublicCtrl'
       });
   });
