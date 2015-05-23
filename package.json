@@ -1,5 +1,5 @@
 {
-  "name": "socialapp",
+  "name": "msgiq",
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {

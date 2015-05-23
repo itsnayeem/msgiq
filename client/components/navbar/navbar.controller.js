@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('socialappApp')
+angular.module('msgiq')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [{
       'title': 'Home',

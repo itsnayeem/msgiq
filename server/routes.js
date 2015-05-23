@@ -18,7 +18,7 @@ module.exports = function(app) {
                 "username character varying(255) NOT NULL," +
                 "password character varying(255) NOT NULL" +
               ");" +
-              "ALTER TABLE public.accounts OWNER TO socialapp;" +
+              "ALTER TABLE public.accounts OWNER TO msgiq;" +
               "ALTER TABLE ONLY accounts ADD CONSTRAINT accounts_id PRIMARY KEY (id);" +
               "ALTER TABLE ONLY accounts ADD CONSTRAINT accounts_username UNIQUE (username);",
           function (err, result) {

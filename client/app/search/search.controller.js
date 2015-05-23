@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('socialappApp')
+angular.module('msgiq')
   .controller('SearchCtrl', function ($scope) {
     $scope.message = 'Hello';
   });

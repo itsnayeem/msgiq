@@ -3,7 +3,7 @@
 describe('Controller: PublicCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('socialappApp'));
+  beforeEach(module('msgiq'));
 
   var PublicCtrl, scope;
 

@@ -3,7 +3,7 @@
 describe('Controller: ProjectsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('socialappApp'));
+  beforeEach(module('msgiq'));
 
   var ProjectsCtrl, scope;
 

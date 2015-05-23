@@ -3,7 +3,7 @@
 describe('Controller: GroupsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('socialappApp'));
+  beforeEach(module('msgiq'));
 
   var GroupsCtrl, scope;
 

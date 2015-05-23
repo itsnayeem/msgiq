@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /opt/socialapp
+cd /opt/msgiq
 npm install
 bower install
 echo "Starting Server"

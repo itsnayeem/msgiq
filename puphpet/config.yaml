@@ -3,7 +3,7 @@ vagrantfile:
     vm:
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
-        hostname: local.socialapp
+        hostname: local.msgiq.com
         memory: '1024'
         cpus: '2'
         chosen_provider: virtualbox
@@ -37,7 +37,7 @@ vagrantfile:
         synced_folder:
             vflsf_pgcv0r7oadzw:
                 source: ./
-                target: /opt/socialapp
+                target: /opt/msgiq
                 sync_type: default
                 rsync:
                     args:
@@ -95,10 +95,10 @@ nginx:
     upstreams: {  }
     vhosts:
         nxv_1bbugp88id9g:
-            server_name: local.socialapp
+            server_name: local.msgiq.com
             server_aliases:
-                - local.socialapp
-            www_root: /var/www/
+                - local.msgiq.com
+            www_root: /var/www/html
             listen_port: '80'
             index_files:
                 - index.html
@@ -152,7 +152,7 @@ apache:
         - rewrite
     vhosts:
         av_ke3oadpfe9wy:
-            servername: local.socialapp
+            servername: local.msgiq.com
             docroot: /var/www/html
             port: '80'
             setenv:
@@ -307,11 +307,11 @@ postgresql:
             postgres_password: c0rinth+
     databases:
         postsqlnd_mv4qryx6jt7f:
-            dbname: socialapp
-            owner: socialapp
+            dbname: msgiq
+            owner: msgiq
     users:
         postsqlnu_j0o0qw5rjj19:
-            username: socialapp
+            username: msgiq
             password: socisoci
             superuser: '1'
     grants: {  }

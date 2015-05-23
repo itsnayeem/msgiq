@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('socialappApp', [
+angular.module('msgiq', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
