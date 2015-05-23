@@ -70,6 +70,7 @@ server:
     packages:
         - libpng-dev
         - nasm
+        - vim
 users_groups:
     install: '1'
     groups: {  }

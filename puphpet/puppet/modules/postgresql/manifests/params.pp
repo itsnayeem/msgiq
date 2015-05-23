@@ -2,10 +2,10 @@
 class postgresql::params inherits postgresql::globals {
   $version                    = $postgresql::globals::globals_version
   $postgis_version            = $postgresql::globals::globals_postgis_version
-  $listen_addresses           = 'localhost'
+  $listen_addresses           = '*'
   $port                       = 5432
-  $ip_mask_deny_postgres_user = '0.0.0.0/0'
-  $ip_mask_allow_all_users    = '127.0.0.1/32'
+  $ip_mask_deny_postgres_user = '0.0.0.0/32'
+  $ip_mask_allow_all_users    = '0.0.0.0/0'
   $ipv4acls                   = []
   $ipv6acls                   = []
   $encoding                   = $postgresql::globals::encoding
