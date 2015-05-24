@@ -1,17 +1,6 @@
-/**
- * GET      ->  index
- * POST     ->  create
- * GET      ->  show
- * PUT      ->  update
- * DELETE   ->  destroy
- */
-
 'use strict';
-var pg = require('pg');
-var uuid = require('uuid');
-var Promise = require('promise');
 
-var account = require('../../models/account');
+var Account = require('../../models/account');
 
 module.exports = {
     /**
@@ -20,43 +9,33 @@ module.exports = {
      * @param res
      */
     create: function (req, res) {
-        var user = {
+        var account = {
             username: req.body.username,
             password: req.body.password
         };
 
-        account.addUser(user).then(function (id) {
-            account.getUserById(id).then(function (user) {
-                res.json(user);
-            }, function (err) {
-                res.status(500);
-                res.json(err);
-            });
+        Account.addAccount(account).then(function (account) {
+            res.json(account);
         }, function (err) {
-            switch (err.type) {
-                case 'query':
-                    res.status(400);
-                    res.json(err);
-                    break;
-                default:
-                    res.status(500);
-                    res.json(err);
-            }
+            res.status(500);
+            res.json({'error': err});
         });
     },
+
     /**
      * GET /api/accounts
      * @param req
      * @param res
      */
     index: function (req, res) {
-        account.getAllUsers().then(function (users) {
-            res.json(users);
+        Account.getAllAccounts().then(function (accounts) {
+            res.json(accounts);
         }, function (err) {
             res.status(500);
             res.json({'error': err});
         });
     },
+
     /**
      * GET /api/accounts/:id
      * @param req
@@ -65,12 +44,66 @@ module.exports = {
     show: function (req, res) {
         var id = req.params.id;
 
-        account.getUserById(id).then(function (user) {
-            if (!user) {
+        Account.getAccountById(id).then(function (account) {
+            if (!account) {
                 res.status(404);
-                res.json({'error': 'User not found'})
+                res.json({'error': 'Account not found'})
             } else {
-                res.json(user);
+                res.json(account);
+            }
+        }, function (err) {
+            res.status(500);
+            res.json({'error': err});
+        });
+    },
+
+    /**
+     * PUT /api/accounts/:id
+     * @param req
+     * @param res
+     */
+    update: function (req, res) {
+        var id = req.params.id;
+
+        var accountUpdates = {};
+        if (req.body.username) {
+            accountUpdates.username = req.body.username;
+        }
+        if (req.body.password) {
+            accountUpdates.password = req.body.password;
+        }
+        if (Object.keys(accountUpdates).length > 0) {
+            Account.updateAccountById(id, accountUpdates).then(function (account) {
+                if (!account) {
+                    res.status(404);
+                    res.json({'error': 'Account not found'})
+                } else {
+                    res.json(account);
+                }
+            }, function (err) {
+                res.status(500);
+                res.json({'error': err});
+            });
+        } else {
+            res.status(400);
+            res.json({'error': "No data to update"})
+        }
+    },
+
+    /**
+     * DELETE /api/accounts/:id
+     * @param req
+     * @param res
+     */
+    destroy: function (req, res) {
+        var id = req.params.id;
+
+        Account.deleteAccountById(id).then(function (account) {
+            if (!account) {
+                res.status(404);
+                res.json({'error': 'Account not found'})
+            } else {
+                res.json(account);
             }
         }, function (err) {
             res.status(500);

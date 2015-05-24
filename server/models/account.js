@@ -1,12 +1,11 @@
 'use strict';
-var pg = require('pg');
+
+var Promise = require('bluebird');
 var uuid = require('uuid');
-var Promise = require('promise');
 var crypto = require('crypto');
-var md5sum = crypto.createHash('md5');
+var db = require('../db');
 
-var db = require('../config/db');
-
+var table = 'account';
 /**
  * Schema for table 'account':
  * id:          uuid
@@ -14,72 +13,43 @@ var db = require('../config/db');
  * password:    varchar(256) md5
  */
 
+ function encryptPassword(password) {
+    var md5sum = crypto.createHash('md5');
+    return md5sum.update(password + db.salt).digest('hex');
+}
+
 module.exports = {
 
-    addUser: function (user) {
+    addAccount: function (account) {
         return new Promise(function (resolve, reject) {
-            user.id = uuid.v4();
-            user.password = md5sum.update(user.password + db.salt).digest('hex');
-            pg.connect(db.connstr, function (err, client, done) {
-                var query = client.query("INSERT INTO accounts(id, username, password) values($1, $2, $3)",
-                    [user.id, user.username, user.password]);
+            account.id = uuid.v4();
 
-                query.on('end', function () {
-                    resolve(user.id);
-                });
+            account.password = encryptPassword(account.password);
 
-                query.on('error', function (err) {
-                    reject({'type': 'query', 'err': err})
-                });
-
-                if (err) {
-                    reject({'type':'connection', 'err': err});
-                }
+            db.insert(account).into(table).then(function() {
+                resolve(account);
+            }).catch(function(err) {
+                reject(err);
             });
         });
     },
 
-    getAllUsers: function () {
-        return new Promise(function (resolve, reject) {
-            var results = [];
-            pg.connect(db.connstr, function (err, client, done) {
-                var query = client.query("SELECT id, username FROM accounts;");
-
-                query.on('row', function (row) {
-                    results.push(row);
-                });
-
-                query.on('end', function () {
-                    client.end();
-                    resolve(results);
-                });
-
-                if (err) {
-                    reject(err);
-                }
-            });
-        });
+    getAllAccounts: function () {
+        return db.select().from(table);
     },
 
-    getUserById: function (id) {
-        return new Promise(function (resolve, reject) {
-            var results = null;
-            pg.connect(db.connstr, function (err, client, done) {
-                var query = client.query("SELECT id, username FROM accounts WHERE id = $1;", [id]);
+    getAccountById: function (id) {
+        return db.select().from(table).where('id', id);
+    },
 
-                query.on('row', function (row) {
-                    results = row;
-                });
+    updateAccountById: function (id, account) {
+        if (account.password) {
+            account.password = encryptPassword(account.password);
+        }
+        return db.update(account).where('id', id).from(table);
+    },
 
-                query.on('end', function () {
-                    client.end();
-                    resolve(results);
-                });
-
-                if (err) {
-                    reject(err);
-                }
-            });
-        });
+    deleteAccountById: function (id) {
+        return db.delete().where('id', id).from(table);
     }
 };

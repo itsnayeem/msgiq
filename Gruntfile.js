@@ -17,7 +17,8 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    knexmigrate: 'grunt-knex-migrate'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -526,6 +527,16 @@ module.exports = function (grunt) {
         }
       }
     },
+    knexmigrate: {
+      config: {
+        directory: './db/migrate',
+        database: {
+          client: 'pg',
+          tableName: 'knex_migrations',
+          connection: "postgres://msgiq:socisoci@127.0.0.1/msgiq"
+        }
+      }
+    }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -546,14 +557,23 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'express-keepalive']);
+      return grunt.task.run([
+        'build',
+        'env:all',
+        'env:prod',
+        'knexmigrate:latest',
+        'express:prod',
+        'wait',
+        'express-keepalive'
+      ]);
     }
 
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'injector:sass', 
+        'injector:sass',
+        'knexmigrate:latest',
         'concurrent:server',
         'injector',
         'wiredep',
@@ -565,7 +585,8 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
-      'injector:sass', 
+      'injector:sass',
+      'knexmigrate:latest',
       'concurrent:server',
       'injector',
       'wiredep',
@@ -594,7 +615,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:all',
-        'injector:sass', 
+        'injector:sass',
         'concurrent:test',
         'injector',
         'autoprefixer',
@@ -607,7 +628,7 @@ module.exports = function (grunt) {
         'clean:server',
         'env:all',
         'env:test',
-        'injector:sass', 
+        'injector:sass',
         'concurrent:test',
         'injector',
         'wiredep',
@@ -625,7 +646,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'injector:sass', 
+    'injector:sass',
     'concurrent:dist',
     'injector',
     'wiredep',
