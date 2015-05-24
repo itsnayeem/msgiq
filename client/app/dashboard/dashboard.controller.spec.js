@@ -2,20 +2,20 @@
 
 describe('Controller: DashboardCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('msgiq'));
+    // load the controller's module
+    beforeEach(module('msgiq'));
 
-  var DashboardCtrl, scope;
+    var DashboardCtrl, scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    DashboardCtrl = $controller('DashboardCtrl', {
-      $scope: scope
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($controller, $rootScope) {
+        scope = $rootScope.$new();
+        DashboardCtrl = $controller('DashboardCtrl', {
+            $scope: scope
+        });
+    }));
+
+    it('should ...', function () {
+        expect(1).toEqual(1);
     });
-  }));
-
-  it('should ...', function () {
-    expect(1).toEqual(1);
-  });
 });

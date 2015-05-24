@@ -1,15 +1,14 @@
 'use strict';
 
 angular.module('msgiq', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ui.router',
-  'ui.bootstrap'
-])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ui.router',
+    'ui.bootstrap'
+]).config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
-      .otherwise('/');
+        .otherwise('/');
 
     $locationProvider.html5Mode(true);
-  });
+});

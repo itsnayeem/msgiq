@@ -2,20 +2,20 @@
 
 describe('Controller: GroupsCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('msgiq'));
+    // load the controller's module
+    beforeEach(module('msgiq'));
 
-  var GroupsCtrl, scope;
+    var GroupsCtrl, scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    GroupsCtrl = $controller('GroupsCtrl', {
-      $scope: scope
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($controller, $rootScope) {
+        scope = $rootScope.$new();
+        GroupsCtrl = $controller('GroupsCtrl', {
+            $scope: scope
+        });
+    }));
+
+    it('should ...', function () {
+        expect(1).toEqual(1);
     });
-  }));
-
-  it('should ...', function () {
-    expect(1).toEqual(1);
-  });
 });

@@ -13,7 +13,7 @@ var table = 'account';
  * password:    varchar(256) md5
  */
 
- function encryptPassword(password) {
+function encryptPassword(password) {
     var md5sum = crypto.createHash('md5');
     return md5sum.update(password + db.salt).digest('hex');
 }
@@ -26,9 +26,9 @@ module.exports = {
 
             account.password = encryptPassword(account.password);
 
-            db.insert(account).into(table).then(function() {
+            db.insert(account).into(table).then(function () {
                 resolve(account);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 reject(err);
             });
         });

@@ -3,7 +3,7 @@
 var config = require('./config/environment');
 var knex = null;
 
-module.exports = (function() {
+module.exports = (function () {
     if (knex != null) {
         return knex;
     }
