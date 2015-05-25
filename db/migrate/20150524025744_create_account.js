@@ -1,11 +1,12 @@
 exports.up = function (knex, Promise) {
     return Promise.all([
         knex.schema.createTable('account', function (table) {
-            table.string('id').index('id', 'hash').primary().unique();
-            table.string('username').index('username', 'btree').unique();
+            table.uuid('id').index('account_id', 'hash').primary().unique();
+            table.string('username').index('account_username', 'btree').unique();
+            table.string('email').index('account_email', 'btree').unique();
             table.string('password');
-            table.timestamp('created_at').defaultTo(knex.raw('now()'));
-            table.timestamp('updated_at').defaultTo(knex.raw('now()'));
+            table.timestamp('created_at');
+            table.timestamp('updated_at');
         })
     ]);
 };

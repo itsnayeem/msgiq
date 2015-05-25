@@ -1,10 +1,10 @@
 'use strict';
 
-var Account = require('../../models/account');
+var Org = require('../../models/org');
 
 module.exports = {
     /**
-     * POST /api/accounts
+     * POST /api/orgs
      */
     create: function (req, res) {
         if (!req.body.username || !req.body.email || !req.body.password) {
@@ -13,14 +13,14 @@ module.exports = {
             return;
         }
 
-        var account = {
+        var org = {
             username:   req.body.username,
             email:      req.body.email,
             password:   req.body.password
         };
 
-        Account.addAccount(account).then(function (account) {
-            res.json(account);
+        Org.addOrg(org).then(function (org) {
+            res.json(org);
         }, function (err) {
             res.status(500);
             res.json({'error': err});
@@ -28,11 +28,11 @@ module.exports = {
     },
 
     /**
-     * GET /api/accounts
+     * GET /api/orgs
      */
     index: function (req, res) {
-        Account.getAllAccounts().then(function (accounts) {
-            res.json(accounts);
+        Org.getAllOrgs().then(function (orgs) {
+            res.json(orgs);
         }, function (err) {
             res.status(500);
             res.json({'error': err});
@@ -40,17 +40,17 @@ module.exports = {
     },
 
     /**
-     * GET /api/accounts/:id
+     * GET /api/orgs/:id
      */
     show: function (req, res) {
         var id = req.params.id;
 
-        Account.getAccountById(id).then(function (account) {
-            if (!account) {
+        Org.getOrgById(id).then(function (org) {
+            if (!org) {
                 res.status(404);
-                res.json({'error': 'Account not found'})
+                res.json({'error': 'Org not found'})
             } else {
-                res.json(account);
+                res.json(org);
             }
         }, function (err) {
             res.status(500);
@@ -59,7 +59,7 @@ module.exports = {
     },
 
     /**
-     * PUT /api/accounts/:id
+     * PUT /api/orgs/:id
      */
     update: function (req, res) {
         var id = req.params.id;
@@ -70,24 +70,24 @@ module.exports = {
             return;
         }
 
-        var accountUpdates = {};
+        var orgUpdates = {};
         if (req.body.username) {
-            accountUpdates.username = req.body.username;
+            orgUpdates.username = req.body.username;
         }
         if (req.body.email) {
-            accountUpdates.email = req.body.email;
+            orgUpdates.email = req.body.email;
         }
         if (req.body.password) {
-            accountUpdates.password = req.body.password;
+            orgUpdates.password = req.body.password;
         }
 
-        if (Object.keys(accountUpdates).length > 0) {
-            Account.updateAccountById(id, accountUpdates).then(function (account) {
-                if (!account) {
+        if (Object.keys(orgUpdates).length > 0) {
+            Org.updateOrgById(id, orgUpdates).then(function (org) {
+                if (!org) {
                     res.status(404);
-                    res.json({'error': 'Account not found'})
+                    res.json({'error': 'Org not found'})
                 } else {
-                    res.json(account);
+                    res.json(org);
                 }
             }, function (err) {
                 res.status(500);
@@ -100,17 +100,17 @@ module.exports = {
     },
 
     /**
-     * DELETE /api/accounts/:id
+     * DELETE /api/orgs/:id
      */
     destroy: function (req, res) {
         var id = req.params.id;
 
-        Account.deleteAccountById(id).then(function (account) {
-            if (!account) {
+        Org.deleteOrgById(id).then(function (org) {
+            if (!org) {
                 res.status(404);
-                res.json({'error': 'Account not found'})
+                res.json({'error': 'Org not found'})
             } else {
-                res.json(account);
+                res.json(org);
             }
         }, function (err) {
             res.status(500);

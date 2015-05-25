@@ -2,30 +2,28 @@
 
 var Promise = require('bluebird');
 var uuid = require('uuid');
-var crypto = require('crypto');
+
+var common = require('../lib/common');
 var db = require('../db');
 
 var table = 'account';
 /**
  * Schema for table 'account':
- * id:          uuid
- * username:    varchar(255)
- * password:    varchar(256) md5
+ * id:          uuid            - required, unique
+ * username:    varchar(255)    - required, unique
+ * email:       varchar(255)    - required, unique
+ * password:    varchar(255)
+ * created_at:  timestamptz
+ * updated_at:  timestamptz
  */
 
-function encryptPassword(password) {
-    var md5sum = crypto.createHash('md5');
-    return md5sum.update(password + db.salt).digest('hex');
-}
-
 module.exports = {
-
     addAccount: function (account) {
+        account.id = uuid.v4();
+        account.password = common.encryptPassword(account.password);
+        account.created_at = account.updated_at = common.getTimestamp();
+
         return new Promise(function (resolve, reject) {
-            account.id = uuid.v4();
-
-            account.password = encryptPassword(account.password);
-
             db.insert(account).into(table).then(function () {
                 resolve(account);
             }).catch(function (err) {
@@ -44,8 +42,10 @@ module.exports = {
 
     updateAccountById: function (id, account) {
         if (account.password) {
-            account.password = encryptPassword(account.password);
+            account.password = common.encryptPassword(account.password);
         }
+        account.updated_at = common.getTimestamp();
+
         return db.update(account).where('id', id).from(table);
     },
 

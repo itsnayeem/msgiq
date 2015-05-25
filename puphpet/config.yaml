@@ -262,6 +262,9 @@ nodejs:
     npm_packages:
         - grunt-cli
         - bower
+        - yo
+        - generator-karma
+        - generator-angular-fullstack
 hhvm:
     install: '0'
     nightly: 0
