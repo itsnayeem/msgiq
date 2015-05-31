@@ -16,6 +16,9 @@ vagrantfile:
                 vflnp_odedaceasw8i:
                     host: '5432'
                     guest: '5432'
+                vflnp_odedaaaasw8i:
+                    host: '9200'
+                    guest: '9200'
         post_up_message: ''
         provider:
             virtualbox:
@@ -364,7 +367,7 @@ rabbitmq:
     vhosts: {  }
     plugins: {  }
 elastic_search:
-    install: '0'
+    install: '1'
     settings:
         version: 1.4.1
         java_install: true

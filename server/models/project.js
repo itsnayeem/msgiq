@@ -5,40 +5,40 @@ var uuid = require('uuid');
 
 var db = require('../db');
 
-var table = 'org';
+var table = 'project';
 /**
- * Schema for table 'org':
+ * Schema for table 'project':
  * id:          uuid
  * owner_id:    uuid
  * name:        varchar(255)
  */
 
 module.exports = {
-    addOrg: function (org) {
+    addProject: function (project) {
         return new Promise(function (resolve, reject) {
-            org.id = uuid.v4();
+            project.id = uuid.v4();
 
-            db.insert(org).into(table).then(function () {
-                resolve(org);
+            db.insert(project).into(table).then(function () {
+                resolve(project);
             }).catch(function (err) {
                 reject(err);
             });
         });
     },
 
-    getAllOrgs: function () {
+    getAllProjects: function () {
         return db.select().from(table);
     },
 
-    getOrgById: function (id) {
+    getProjectById: function (id) {
         return db.select().from(table).where('id', id);
     },
 
-    updateOrgById: function (id, org) {
-        return db.update(org).where('id', id).from(table);
+    updateProjectById: function (id, project) {
+        return db.update(project).where('id', id).from(table);
     },
 
-    deleteOrgById: function (id) {
+    deleteProjectById: function (id) {
         return db.delete().where('id', id).from(table);
     }
 };
